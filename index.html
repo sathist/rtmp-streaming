@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streaming App</title>
+</head>
+<body>
+  <h1>Start Streaming</h1>
+  <form id="streamForm">
+    <label for="streamUrl">Stream URL:</label>
+    <input type="text" id="streamUrl" name="streamUrl" required>
+    <br>
+    <label for="rtmpUrl">RTMP URL:</label>
+    <input type="text" id="rtmpUrl" name="rtmpUrl" required>
+    <br>
+    <button type="submit">Start Stream</button>
+  </form>
+  <script>
+    const apiUrl = 'http://localhost:3000'; // Replace with your backend API URL
+
+    document.getElementById('streamForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const streamUrl = document.getElementById('streamUrl').value;
+      const rtmpUrl = document.getElementById('rtmpUrl').value;
+
+      try {
+        const response = await fetch(`${apiUrl}/start-stream`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ streamUrl, rtmpUrl }),
+        });
+
+        const result = await response.text();
+        alert(result);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to start streaming');
+      }
+    });
+  </script>
+</body>
+</html>
